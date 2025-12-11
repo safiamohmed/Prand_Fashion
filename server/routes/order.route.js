@@ -1,0 +1,21 @@
+const express = require("express");
+const router = express.Router();
+const { authenticate } = require("../middleware/auth.middleware");
+const { authorize } = require("../middleware/role.middleware");
+const { createOrder, getUserOrder, getAllOrder,  updateOrderStatus , getUserOrderStats, updateUserOrder, cancelUserOrder, getOrderDetails} = require("../controller/order.controller");
+
+router.post("/", authenticate, authorize("user"), createOrder);
+router.get("/", authenticate, authorize("user"), getUserOrder);
+router.get("/all", authenticate, authorize("admin"), getAllOrder);
+router.put("/:id/status", authenticate, authorize("admin"), updateOrderStatus);
+router.post("/", authenticate, authorize("user"), createOrder);
+router.get("/", authenticate, authorize("user"), getUserOrder);
+router.get("/stats", authenticate, authorize("user"), getUserOrderStats);
+router.put("/:id", authenticate, authorize("user"), updateUserOrder);
+router.put("/:id/cancel", authenticate, authorize("user"), cancelUserOrder);
+router.get("/:id", authenticate, getOrderDetails);
+// router.post("/", authenticate, authorize("user"), createOrder);
+// router.get("/", authenticate, authorize("user"), getUserOrder);
+// router.get("/all", authenticate, authorize("admin"), getAllOrder);
+// router.put("/:id/status", authenticate, authorize("admin"), updateOrderStatus);
+module.exports = router;
